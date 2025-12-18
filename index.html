@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Presupuestos Steel Frame</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Calculadora de Presupuestos Steel Frame</h1>
+            <p class="subtitle">Ingrese los datos del proyecto para obtener un presupuesto detallado</p>
+        </header>
+
+        <form id="calculatorForm">
+            <!-- Dimensiones Principales -->
+            <section class="form-section">
+                <h2>Dimensiones de la Vivienda</h2>
+                <div class="form-group">
+                    <label for="width">Ancho de la vivienda (metros)</label>
+                    <input type="number" id="width" name="width" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="length">Largo de la vivienda (metros)</label>
+                    <input type="number" id="length" name="length" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="wallHeight">Altura de muros (metros)</label>
+                    <input type="number" id="wallHeight" name="wallHeight" step="0.01" min="0" value="2.6" required>
+                </div>
+            </section>
+
+            <!-- Aberturas -->
+            <section class="form-section">
+                <h2>Aberturas</h2>
+
+                <h3>Ventanas</h3>
+                <div id="windowsContainer">
+                    <div class="opening-item">
+                        <label>Ventana 1</label>
+                        <div class="opening-inputs">
+                            <select class="window-size" onchange="checkCustomWindow(this)">
+                                <option value="0.60x1.00">0.60 x 1.00 m</option>
+                                <option value="0.80x1.10">0.80 x 1.10 m</option>
+                                <option value="1.00x1.20">1.00 x 1.20 m</option>
+                                <option value="1.20x1.20">1.20 x 1.20 m</option>
+                                <option value="1.50x1.20">1.50 x 1.20 m</option>
+                                <option value="2.00x1.50">2.00 x 1.50 m (Paño fijo)</option>
+                                <option value="custom">Medida Especial</option>
+                            </select>
+                            <input type="number" class="window-width-custom" placeholder="Ancho (m)" step="0.01" min="0" style="display:none;">
+                            <span class="custom-x" style="display:none;">x</span>
+                            <input type="number" class="window-height-custom" placeholder="Alto (m)" step="0.01" min="0" style="display:none;">
+                            <input type="number" class="window-quantity" placeholder="Cant." min="1" value="1" style="width: 80px;">
+                            <button type="button" class="btn-remove" onclick="removeOpening(this)">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" onclick="addWindow()">+ Agregar Ventana</button>
+
+                <h3>Puertas</h3>
+                <div id="doorsContainer">
+                    <div class="opening-item">
+                        <label>Puerta 1</label>
+                        <div class="opening-inputs">
+                            <select class="door-size" onchange="checkCustomDoor(this)">
+                                <option value="0.70x2.00">0.70 x 2.00 m (Simple)</option>
+                                <option value="0.80x2.00">0.80 x 2.00 m (Simple)</option>
+                                <option value="0.90x2.00">0.90 x 2.00 m (Simple)</option>
+                                <option value="1.40x2.00">1.40 x 2.00 m (Doble)</option>
+                                <option value="1.60x2.00">1.60 x 2.00 m (Doble)</option>
+                                <option value="2.40x2.10">2.40 x 2.10 m (Balcón)</option>
+                                <option value="custom">Medida Especial</option>
+                            </select>
+                            <input type="number" class="door-width-custom" placeholder="Ancho (m)" step="0.01" min="0" style="display:none;">
+                            <span class="custom-x" style="display:none;">x</span>
+                            <input type="number" class="door-height-custom" placeholder="Alto (m)" step="0.01" min="0" style="display:none;">
+                            <input type="number" class="door-quantity" placeholder="Cant." min="1" value="1" style="width: 80px;">
+                            <button type="button" class="btn-remove" onclick="removeOpening(this)">Eliminar</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn-add" onclick="addDoor()">+ Agregar Puerta</button>
+            </section>
+
+            <!-- Cubierta -->
+            <section class="form-section">
+                <h2>Cubierta</h2>
+                <div class="form-group">
+                    <label for="roofType">Tipo de cubierta</label>
+                    <select id="roofType" name="roofType" required>
+                        <option value="1">1 Agua</option>
+                        <option value="2" selected>2 Aguas</option>
+                        <option value="4">4 Aguas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="roofSlope">Pendiente de cubierta (%)</label>
+                    <input type="number" id="roofSlope" name="roofSlope" step="1" min="0" value="30" required>
+                </div>
+                <div class="form-group">
+                    <label for="eaveWidth">Ancho de aleros (metros)</label>
+                    <input type="number" id="eaveWidth" name="eaveWidth" step="0.01" min="0" value="0.6" required>
+                </div>
+            </section>
+
+            <!-- Tabiques Internos -->
+            <section class="form-section">
+                <h2>Distribución Interior</h2>
+                <div class="form-group">
+                    <label for="rooms">Cantidad de ambientes/tabiques internos</label>
+                    <input type="number" id="rooms" name="rooms" step="1" min="0" value="0" required>
+                    <small>Ingrese la cantidad de tabiques internos necesarios</small>
+                </div>
+            </section>
+
+            <button type="submit" class="btn-calculate">Calcular Presupuesto</button>
+        </form>
+
+        <!-- Sección de Resultados (oculta inicialmente) -->
+        <div id="results" class="results-container" style="display: none;">
+            <div class="results-header">
+                <h2>Presupuesto Calculado</h2>
+                <button type="button" class="btn-print" onclick="window.print()">Imprimir / Descargar PDF</button>
+            </div>
+
+            <!-- Resumen del Proyecto -->
+            <section class="result-section">
+                <h3 class="collapsible active">Resumen del Proyecto</h3>
+                <div class="result-content">
+                    <table>
+                        <tbody id="summaryTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Estructura Metálica -->
+            <section class="result-section">
+                <h3 class="collapsible">Estructura Metálica</h3>
+                <div class="result-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Unidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="structureTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Placas y Revestimientos -->
+            <section class="result-section">
+                <h3 class="collapsible">Placas y Revestimientos</h3>
+                <div class="result-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Unidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="platesTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Aislación Térmica -->
+            <section class="result-section">
+                <h3 class="collapsible">Aislación Térmica</h3>
+                <div class="result-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Unidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="insulationTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Barreras y Membranas -->
+            <section class="result-section">
+                <h3 class="collapsible">Barreras y Membranas</h3>
+                <div class="result-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Unidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="barriersTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Cubierta -->
+            <section class="result-section">
+                <h3 class="collapsible">Cubierta</h3>
+                <div class="result-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Unidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roofingTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Aberturas -->
+            <section class="result-section">
+                <h3 class="collapsible">Aberturas</h3>
+                <div class="result-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Unidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="openingsTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Terminaciones -->
+            <section class="result-section">
+                <h3 class="collapsible">Terminaciones</h3>
+                <div class="result-content">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Unidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="finishesTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Total General -->
+            <section class="result-section total-section">
+                <div class="total-container">
+                    <h3>TOTAL GENERAL</h3>
+                    <p class="total-amount" id="totalAmount">$0.00</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="prices.js"></script>
+    <script src="calculator.js"></script>
+    <script>
+        // Función para mostrar/ocultar campos personalizados de ventanas
+        function checkCustomWindow(select) {
+            const parent = select.closest('.opening-inputs');
+            const widthCustom = parent.querySelector('.window-width-custom');
+            const heightCustom = parent.querySelector('.window-height-custom');
+            const customX = parent.querySelectorAll('.custom-x');
+
+            if (select.value === 'custom') {
+                widthCustom.style.display = 'inline-block';
+                heightCustom.style.display = 'inline-block';
+                customX.forEach(x => x.style.display = 'inline');
+                widthCustom.required = true;
+                heightCustom.required = true;
+            } else {
+                widthCustom.style.display = 'none';
+                heightCustom.style.display = 'none';
+                customX.forEach(x => x.style.display = 'none');
+                widthCustom.required = false;
+                heightCustom.required = false;
+            }
+        }
+
+        // Función para mostrar/ocultar campos personalizados de puertas
+        function checkCustomDoor(select) {
+            const parent = select.closest('.opening-inputs');
+            const widthCustom = parent.querySelector('.door-width-custom');
+            const heightCustom = parent.querySelector('.door-height-custom');
+            const customX = parent.querySelectorAll('.custom-x');
+
+            if (select.value === 'custom') {
+                widthCustom.style.display = 'inline-block';
+                heightCustom.style.display = 'inline-block';
+                customX.forEach(x => x.style.display = 'inline');
+                widthCustom.required = true;
+                heightCustom.required = true;
+            } else {
+                widthCustom.style.display = 'none';
+                heightCustom.style.display = 'none';
+                customX.forEach(x => x.style.display = 'none');
+                widthCustom.required = false;
+                heightCustom.required = false;
+            }
+        }
+
+        // Función para agregar ventanas dinámicamente
+        let windowCount = 1;
+        function addWindow() {
+            windowCount++;
+            const container = document.getElementById('windowsContainer');
+            const div = document.createElement('div');
+            div.className = 'opening-item';
+            div.innerHTML = `
+                <label>Ventana ${windowCount}</label>
+                <div class="opening-inputs">
+                    <select class="window-size" onchange="checkCustomWindow(this)">
+                        <option value="0.60x1.00">0.60 x 1.00 m</option>
+                        <option value="0.80x1.10">0.80 x 1.10 m</option>
+                        <option value="1.00x1.20">1.00 x 1.20 m</option>
+                        <option value="1.20x1.20">1.20 x 1.20 m</option>
+                        <option value="1.50x1.20">1.50 x 1.20 m</option>
+                        <option value="2.00x1.50">2.00 x 1.50 m (Paño fijo)</option>
+                        <option value="custom">Medida Especial</option>
+                    </select>
+                    <input type="number" class="window-width-custom" placeholder="Ancho (m)" step="0.01" min="0" style="display:none;">
+                    <span class="custom-x" style="display:none;">x</span>
+                    <input type="number" class="window-height-custom" placeholder="Alto (m)" step="0.01" min="0" style="display:none;">
+                    <input type="number" class="window-quantity" placeholder="Cant." min="1" value="1" style="width: 80px;">
+                    <button type="button" class="btn-remove" onclick="removeOpening(this)">Eliminar</button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        // Función para agregar puertas dinámicamente
+        let doorCount = 1;
+        function addDoor() {
+            doorCount++;
+            const container = document.getElementById('doorsContainer');
+            const div = document.createElement('div');
+            div.className = 'opening-item';
+            div.innerHTML = `
+                <label>Puerta ${doorCount}</label>
+                <div class="opening-inputs">
+                    <select class="door-size" onchange="checkCustomDoor(this)">
+                        <option value="0.70x2.00">0.70 x 2.00 m (Simple)</option>
+                        <option value="0.80x2.00">0.80 x 2.00 m (Simple)</option>
+                        <option value="0.90x2.00">0.90 x 2.00 m (Simple)</option>
+                        <option value="1.40x2.00">1.40 x 2.00 m (Doble)</option>
+                        <option value="1.60x2.00">1.60 x 2.00 m (Doble)</option>
+                        <option value="2.40x2.10">2.40 x 2.10 m (Balcón)</option>
+                        <option value="custom">Medida Especial</option>
+                    </select>
+                    <input type="number" class="door-width-custom" placeholder="Ancho (m)" step="0.01" min="0" style="display:none;">
+                    <span class="custom-x" style="display:none;">x</span>
+                    <input type="number" class="door-height-custom" placeholder="Alto (m)" step="0.01" min="0" style="display:none;">
+                    <input type="number" class="door-quantity" placeholder="Cant." min="1" value="1" style="width: 80px;">
+                    <button type="button" class="btn-remove" onclick="removeOpening(this)">Eliminar</button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        // Función para eliminar aberturas
+        function removeOpening(button) {
+            button.closest('.opening-item').remove();
+        }
+
+        // Funcionalidad de secciones colapsables
+        document.addEventListener('DOMContentLoaded', function() {
+            const collapsibles = document.querySelectorAll('.collapsible');
+            collapsibles.forEach(function(collapsible) {
+                collapsible.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
