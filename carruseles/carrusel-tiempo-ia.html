@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>IA para Arquitectos - La ganancia está en el tiempo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0D0D0B;
+    --accent: #FFCC00;
+    --accent-soft: rgba(255, 204, 0, 0.15);
+    --text-primary: #ffffff;
+    --text-secondary: #A0A0A0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; min-height: 100vh; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 24px; font-family: 'Inter', sans-serif; }
+  .slides-container { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; max-width: 1100px; }
+  .slide { width: 320px; height: 320px; background: var(--bg); position: relative; overflow: hidden; border-radius: 12px; }
+  
+  /* Label */
+  .label { position: absolute; top: 18px; left: 18px; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+  
+  /* Title */
+  .title { position: absolute; top: 48px; left: 18px; right: 18px; font-size: 26px; font-weight: 800; color: var(--text-primary); line-height: 1.2; }
+  .title .highlight { color: var(--accent); }
+  
+  /* Body */
+  .body { position: absolute; top: 110px; left: 18px; right: 18px; font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  
+  /* List items */
+  .list { position: absolute; top: 95px; left: 18px; right: 18px; }
+  .list-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px; font-size: 11px; color: var(--text-secondary); }
+  .list-item::before { content: ''; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  
+  /* Card */
+  .card { position: absolute; top: 95px; left: 18px; right: 18px; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; padding: 12px; }
+  .card-title { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .card-body { font-size: 10px; color: var(--text-secondary); line-height: 1.4; }
+  
+  /* CTA Button */
+  .cta { position: absolute; bottom: 50px; left: 18px; right: 18px; background: var(--accent); border-radius: 8px; padding: 14px; text-align: center; }
+  .cta p { color: #000; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin: 0; }
+  .cta small { color: rgba(0,0,0,0.5); font-size: 9px; }
+  
+  /* Footer */
+  .handle { position: absolute; bottom: 14px; left: 18px; font-size: 10px; color: var(--text-secondary); }
+  .slide-num { position: absolute; bottom: 14px; right: 18px; font-size: 10px; color: var(--accent); font-weight: 700; }
+  
+  /* Decorative accent bar */
+  .accent-bar { position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent); }
+</style>
+</head>
+<body>
+
+<p style="color:var(--accent);font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.5">Carrusel - Revisar textos</p>
+
+<div class="slides-container">
+
+  <!-- SLIDE 1: PORTADA -->
+  <div class="slide">
+    <div class="accent-bar"></div>
+    <div class="label">IA PARA ARQUITECTOS</div>
+    <div class="title" style="top:50px;">La ganancia está en el <span class="highlight">tiempo</span></div>
+    <div class="body" style="top:110px;">El tiempo que ganás = proyectos que ganás.</div>
+    <div class="handle">@soy.leo_ai</div>
+    <div class="slide-num">01 / 06</div>
+  </div>
+
+  <!-- SLIDE 2: EL PROBLEMA -->
+  <div class="slide">
+    <div class="accent-bar"></div>
+    <div class="label">EL PROBLEMA</div>
+    <div class="title" style="font-size:22px;top:48px;">Antes: horas de trabajo <span class="highlight">repetitivo</span></div>
+    <div class="list">
+      <div class="list-item">Medir y dibujar a mano</div>
+      <div class="list-item">Renderizar toda la noche</div>
+      <div class="list-item">Presupuesto manual (horas)</div>
+      <div class="list-item">Entregables uno por uno</div>
+    </div>
+    <div class="body" style="top:210px;">= Tiempo perdido = Plata perdida</div>
+    <div class="handle">@soy.leo_ai</div>
+    <div class="slide-num">02 / 06</div>
+  </div>
+
+  <!-- SLIDE 3: LA COMPARACIÓN -->
+  <div class="slide">
+    <div class="accent-bar"></div>
+    <div class="label">ANTES VS DESPUÉS</div>
+    <div class="title" style="font-size:20px;top:48px;">Render tradicional vs IA</div>
+    <div class="card" style="top:95px;">
+      <div class="card-title">ANTES (4 horas)</div>
+      <div class="card-body">Super PC, placa de video, mucha RAM, iterar varias veces hasta conseguir algo decente.</div>
+    </div>
+    <div class="card" style="top:175px; border-color:#00ff87; background:rgba(0,255,135,0.1);">
+      <div class="card-title" style="color:#00ff87">AHORA (15 min)</div>
+      <div class="card-body">Screenshot → prompt → render + video. Todo desde una laptop. Sin super PC.</div>
+    </div>
+    <div class="handle">@soy.leo_ai</div>
+    <div class="slide-num">03 / 06</div>
+  </div>
+
+  <!-- SLIDE 4: CLAUDE VS CHATGPT -->
+  <div class="slide">
+    <div class="accent-bar"></div>
+    <div class="label" style="color:#00ff87">POLÉMICO</div>
+    <div class="title" style="font-size:24px;top:48px;">Claude es mejor que <span class="highlight">ChatGPT</span></div>
+    <div class="list" style="top:95px;">
+      <div class="list-item"><strong>Scheduled Tasks:</strong> Tareas programadas</div>
+      <div class="list-item"><strong>Remote Execution:</strong> Ejecuta en tu PC desde el teléfono</div>
+      <div class="list-item"><strong>Claude Code:</strong> Sistemas completos de agentes</div>
+      <div class="list-item"><strong>Computer Use:</strong> Hace el trabajo por vos</div>
+    </div>
+    <div class="handle">@soy.leo_ai</div>
+    <div class="slide-num">04 / 06</div>
+  </div>
+
+  <!-- SLIDE 5: TU NUEVO FLUJO -->
+  <div class="slide">
+    <div class="accent-bar"></div>
+    <div class="label">TU NUEVO FLUJO</div>
+    <div class="title" style="font-size:20px;top:48px;">Screenshot → prompt → todo <span class="highlight">automático</span></div>
+    <div class="list" style="top:90px;">
+      <div class="list-item">Modelá la base de tu escena</div>
+      <div class="list-item">Captura de pantalla</div>
+      <div class="list-item">JSON prompt para modelos generativos</div>
+      <div class="list-item">Render + video automático</div>
+      <div class="list-item">BOQ (presupuesto) en 30 seg</div>
+    </div>
+    <div class="handle">@soy.leo_ai</div>
+    <div class="slide-num">05 / 06</div>
+  </div>
+
+  <!-- SLIDE 6: CTA -->
+  <div class="slide">
+    <div class="accent-bar"></div>
+    <div class="label" style="top:40px;">RESULTADO</div>
+    <div class="title" style="font-size:22px;top:70px;">El tiempo que ganás = <span class="highlight">proyectos</span> que ganás</div>
+    <div class="body" style="top:140px;">Tu hora vale más. Entregás más rápido. Cobrás más.</div>
+    <div class="cta">
+      <p>Comenta SISTEMA</p>
+      <small>Te mando los detalles</small>
+    </div>
+    <div class="handle">soyleoai.com</div>
+    <div class="slide-num">06 / 06</div>
+  </div>
+
+</div>
+
+<p style="color:var(--text-secondary);font-size:10px;margin-top:10px">
+  📝 Revisa los textos. Cuando aprobés, decime <span style="color:var(--accent)">EXPORTAR</span> y genero los PNG.
+</p>
+
+</body>
+</html>
